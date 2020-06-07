@@ -1,6 +1,6 @@
-package com.zhangfan.learn;
+package com.zhangfan.learn.classfile;
 
-import com.zhangfan.learn.constant.ReadBytes;
+import com.zhangfan.learn.classfile.constant.ReadBytes;
 
 import java.io.FileInputStream;
 

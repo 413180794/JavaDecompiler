@@ -1,11 +1,12 @@
-package com.zhangfan.learn.constant;
+package com.zhangfan.learn.classfile.constant;
 
-import com.zhangfan.learn.HexUtils;
+import com.zhangfan.learn.tools.HexUtils;
+import com.zhangfan.learn.UKind;
 
 import java.io.FileInputStream;
 
 public class ConstantIntegerInfo extends ReadBytes implements ConstantInfo {
-    private static final int length = 4;
+    private static final int length = UKind.U4;
     private int index;
     private int value;
     public ConstantIntegerInfo(FileInputStream fileInputStream,int index) {

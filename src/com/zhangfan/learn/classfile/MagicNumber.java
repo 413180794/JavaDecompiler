@@ -1,6 +1,8 @@
-package com.zhangfan.learn;
+package com.zhangfan.learn.classfile;
 
-import com.zhangfan.learn.constant.ReadBytes;
+import com.zhangfan.learn.UKind;
+import com.zhangfan.learn.classfile.constant.ReadBytes;
+import com.zhangfan.learn.tools.HexUtils;
 
 import java.io.FileInputStream;
 import java.util.Arrays;
@@ -8,7 +10,7 @@ import java.util.Arrays;
 public class MagicNumber extends ReadBytes {
     // 版本魔数
     // 占四个字节 u4类型
-    private static final int length = 4;
+    private static final int length = UKind.U4;
     private String hexString;
     public MagicNumber(FileInputStream fileInputStream) throws Exception {
         super(fileInputStream, length);

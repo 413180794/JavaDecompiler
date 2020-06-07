@@ -1,4 +1,4 @@
-package com.zhangfan.learn;
+package com.zhangfan.learn.tools;
 
 public class HexUtils {
     // 这个类存在的意义是什么？

@@ -1,16 +1,18 @@
-package com.zhangfan.learn;
+package com.zhangfan.learn.classfile;
 
-import com.zhangfan.learn.constant.ReadBytes;
+import com.zhangfan.learn.UKind;
+import com.zhangfan.learn.classfile.constant.ReadBytes;
+import com.zhangfan.learn.tools.HexUtils;
 
 import java.io.FileInputStream;
 
 public class Version extends ReadBytes {
     // 版本信息
-    private static final int length = 2;
+    private static final int length = UKind.U2;
     private int versionNum;
     public Version(FileInputStream fileInputStream) {
         super(fileInputStream,length);
-        versionNum = bytes[0]*512 + bytes[1];
+        versionNum = HexUtils.bytes2Int(bytes);
     }
 
 

@@ -1,4 +1,4 @@
-package com.zhangfan.learn.constant;
+package com.zhangfan.learn.classfile.constant;
 
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
