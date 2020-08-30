@@ -19,33 +19,52 @@ public interface Constants {
      */
     public final static int MAX_BYTE  = 255; // 2^8 - 1
 
-    /** Access flags for classes, fields and methods.
+    /** Access flags for classes
      */
     public final static short ACC_PUBLIC       = 0x0001;
+    public final static short ACC_FINAL        = 0x0010;
+    public final static short ACC_SUPER        = 0x0020;
+    public final static short ACC_INTERFACE    = 0x0200;
+    public final static short ACC_ABSTRACT     = 0x0400;
+    public final static short ACC_SYNTHETIC    = 0x1000;
+    public final static short ACC_ANNOTATION   = 0x2000;
+    public final static short ACC_ENUM         = 0x4000;
+    public final static String[] CLASSES_ACCESS_NAMES = {
+            "public", "final", "super", "interface", "abstract", "synthetic",
+            "annotation","enum"
+    };
+    /** Access flags for field
+     *
+     */
     public final static short ACC_PRIVATE      = 0x0002;
     public final static short ACC_PROTECTED    = 0x0004;
     public final static short ACC_STATIC       = 0x0008;
-
-    public final static short ACC_FINAL        = 0x0010;
-    public final static short ACC_SYNCHRONIZED = 0x0020;
     public final static short ACC_VOLATILE     = 0x0040;
     public final static short ACC_TRANSIENT    = 0x0080;
 
-    public final static short ACC_NATIVE       = 0x0100;
-    public final static short ACC_INTERFACE    = 0x0200;
-    public final static short ACC_ABSTRACT     = 0x0400;
-    public final static short ACC_STRICT       = 0x0800;
-
-    // Applies to classes compiled by new compilers only
-    public final static short ACC_SUPER        = 0x0020;
-    public final static short ACC_ENUM         = 0x4000;
-    public final static short MAX_ACC_FLAG     = ACC_STRICT;
-
-    public final static String[] ACCESS_NAMES = {
-            "public", "private", "protected", "static", "final", "synchronized",
-            "volatile", "transient", "native", "interface", "abstract", "strictfp"
+    public final static String[] FIELD_ACCESS_NAMES = {
+            "public", "private", "protected", "static", "final",
+            "volatile", "transient", "synthetic", "enum"
     };
-
+    /** Access flags for method
+     */
+    // Applies to classes compiled by new compilers only
+    public final static short ACC_BRIDGE        = 0x0040;
+    public final static short ACC_VARARGS       = 0x0080;
+    public final static short ACC_NATIVE       = 0x0100;
+    public final static short ACC_SYNCHRONIZED = 0x0020;
+    public final static short ACC_STRICT       = 0x0800;
+    public final static String[] METHOD_ACCESS_NAMES = {
+            "public", "private", "protected", "static",
+            "final", "synchronized", "bridge", "varargs",
+            "native", "abstract", "strict", "synthetic"
+    };
+    /** Access flags for nested class
+     */
+    public final static String[] NESTED_CLASS_ACCESS_NAMES = {
+            "public", "private", "protected", "static",
+            "final", "interface", "abstract", "annotation", "enum"
+    };
     /** Tags in constant pool to denote type of constant.
      */
     public final static byte CONSTANT_Utf8               = 1;
@@ -54,11 +73,14 @@ public interface Constants {
     public final static byte CONSTANT_Long               = 5;
     public final static byte CONSTANT_Double             = 6;
     public final static byte CONSTANT_Class              = 7;
-    public final static byte CONSTANT_Fieldref           = 9;
     public final static byte CONSTANT_String             = 8;
+    public final static byte CONSTANT_Fieldref           = 9;
     public final static byte CONSTANT_Methodref          = 10;
     public final static byte CONSTANT_InterfaceMethodref = 11;
     public final static byte CONSTANT_NameAndType        = 12;
+    public final static byte CONSTANT_MethodHandle       = 15;
+    public final static byte CONSTANT_MethodType         = 16;
+    public final static byte CONSTANT_InvokeDynamic      = 18;
 
     public final static String[] CONSTANT_NAMES = {
             "", "CONSTANT_Utf8", "", "CONSTANT_Integer",
@@ -706,6 +728,21 @@ public interface Constants {
             "PMGClass", "Signature", "StackMap",
             "LocalVariableTypeTable"
     };
+    public static final String SOURCE_FILE= "SourceFile";
+    public static final String CONSTANT_VALUE ="ConstantValue";
+    public static final String CODE = "Code";
+    public static final String EXCEPTIONS = "Exceptions";
+    public static final String LINE_NUMBER_TABLE = "LineNumberTable";
+    public static final String LOCAL_VARIABLE_TABLE = "LocalVariableTable";
+    public static final String INNER_CLASSES = "InnerClasses";
+    public static final String SYNTHETIC = "Synthetic";
+    public static final String DEPRECATED = "Deprecated";
+    public static final String PMG_CLASS = "PMGClass";
+    public static final String SIGNATURE = "Signature";
+    public static final String STACK_MAP = "StackMap";
+    public static final String LOCAL_VARIABLE_TYPE_TABLE = "LocalVariableTypeTable";
+
+
 
     /** Constants used in the StackMap attribute.
      */

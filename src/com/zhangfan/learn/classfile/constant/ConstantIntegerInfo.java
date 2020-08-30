@@ -7,11 +7,9 @@ import java.io.FileInputStream;
 
 public class ConstantIntegerInfo extends ReadBytes implements ConstantInfo {
     private static final int length = UKind.U4;
-    private int index;
     private int value;
-    public ConstantIntegerInfo(FileInputStream fileInputStream,int index) {
+    public ConstantIntegerInfo(FileInputStream fileInputStream) {
         super(fileInputStream, length);
-        this.index = index;
         value = HexUtils.bytes2Int(bytes);
     }
 

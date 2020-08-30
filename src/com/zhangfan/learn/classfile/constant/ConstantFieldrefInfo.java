@@ -7,16 +7,14 @@ import java.io.FileInputStream;
 public class ConstantFieldrefInfo implements ConstantInfo {
     private Index classInfoIndex;
     private Index nameAndTypeInfoIndex;
-    private int index;
 
-    public ConstantFieldrefInfo(FileInputStream fi, int index) {
-        this.index = index;
+    public ConstantFieldrefInfo(FileInputStream fi) {
         this.classInfoIndex = new Index(fi);
         this.nameAndTypeInfoIndex = new Index(fi);
     }
 
     @Override
     public String toString() {
-        return "#" + index + " = Fieldref" + "            " + "#" + classInfoIndex.getIndex() + "." + "#" + nameAndTypeInfoIndex.getIndex();
+        return "#" + " = Fieldref" + "            " + "#" + classInfoIndex.getIndex() + "." + "#" + nameAndTypeInfoIndex.getIndex();
     }
 }

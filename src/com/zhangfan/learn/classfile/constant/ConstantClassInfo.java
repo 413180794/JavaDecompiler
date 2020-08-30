@@ -6,10 +6,9 @@ import java.io.FileInputStream;
 
 public class ConstantClassInfo implements ConstantInfo {
     private Index indexRef;
-    private int index;
 
-    public ConstantClassInfo(FileInputStream fi, int index) {
-        this.index = index;
+    public ConstantClassInfo(FileInputStream fi) {
+
         indexRef = new Index(fi);
     }
 
@@ -19,6 +18,6 @@ public class ConstantClassInfo implements ConstantInfo {
 
     @Override
     public String toString() {
-        return "#" + index + " = Class" + "           " + "#" + getIndexRef();
+        return "#"  + " = Class" + "           " + "#" + getIndexRef();
     }
 }

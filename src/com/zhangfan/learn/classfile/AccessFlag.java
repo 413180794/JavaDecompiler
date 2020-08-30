@@ -1,7 +1,6 @@
 package com.zhangfan.learn.classfile;
 
-import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.zhangfan.learn.KIND;
 import com.zhangfan.learn.UKind;
 import com.zhangfan.learn.classfile.constant.ReadBytes;
 import com.zhangfan.learn.tools.HexUtils;
@@ -10,53 +9,117 @@ import com.zhangfan.learn.classfile.constant.Constants;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
-// https://blog.csdn.net/dengzhao3993/article/details/101506016/
+
 public class AccessFlag extends ReadBytes {
+
+
     private static final int length = UKind.U2;
     private int accessFlag; // 将两个字节拼接起来
     private List<String> accessFlags;
     private Supplier<Boolean> isX;
     private Supplier[] isTrueList;
 
-    public AccessFlag(FileInputStream fileInputStream) {
+    public AccessFlag(FileInputStream fileInputStream, KIND kind) {
         super(fileInputStream, length);
         accessFlag = HexUtils.bytes2Int(bytes);
         accessFlags = new ArrayList<>();
-        isTrueList = new Supplier[]{
-                this::isPublic,
-                this::isPrivate,
-                this::isProtected,
-                this::isStatic,
-                this::isFinal,
-                this::isSynchronized,
-                this::isVolatile,
-                this::isTransient,
-                this::isNative,
-                this::isInterface,
-                this::isAbstract,
-                this::isStrictfp,
-
-        };
+        isTrueList = getSuppliersByKind(kind);
         for (int i = 0; i < isTrueList.length; i++) {
             if ((Boolean) isTrueList[i].get()) {
-                accessFlags.add(Constants.ACCESS_NAMES[i]);
+                accessFlags.add(getAccessNamesByKind(kind)[i]);
             }
         }
-        // 上面的access_flag为类和方法字段共有
-        // 下面为类单独享有
-        if (isSuper()) {
-            accessFlags.add("super");
-        }
-        if (isEnum()) {
-            accessFlags.add("enum");
-        }
+        // TODO public private protected三个标志最多只能选择其一、final volatile不能同时选择
+        // 借口字段必须要有 public static final 标志
+    }
 
+    private String[] getAccessNamesByKind(KIND kind) {
+        if (kind == KIND.CLASS) {
+            return Constants.CLASSES_ACCESS_NAMES;
+        } else if (kind == KIND.FIELD) {
+            return Constants.FIELD_ACCESS_NAMES;
+        } else if (kind == KIND.METHOD) {
+            return Constants.METHOD_ACCESS_NAMES;
+        }
+        else {
+            return Constants.NESTED_CLASS_ACCESS_NAMES;
+        }
+    }
+
+    private Supplier[] getSuppliersByKind(KIND kind) {
+        if (kind == KIND.CLASS) {
+            return new Supplier[]{
+                    this::isPublic,
+                    this::isFinal,
+                    this::isSuper,
+                    this::isInterface,
+                    this::isAbstract,
+                    this::isSynthetic,
+                    this::isAnnotation,
+                    this::isEnum
+            };
+        } else if (kind == KIND.FIELD) {
+            return new Supplier[]{
+                    this::isPublic,
+                    this::isPrivate,
+                    this::isProtected,
+                    this::isStatic,
+                    this::isFinal,
+                    this::isVolatile,
+                    this::isTransient,
+                    this::isSynthetic,
+                    this::isEnum
+            };
+        } else if (kind == KIND.METHOD) {
+            return new Supplier[]{
+                    this::isPublic,
+                    this::isPrivate,
+                    this::isProtected,
+                    this::isStatic,
+                    this::isFinal,
+                    this::isSynchronized,
+                    this::isBridge,
+                    this::isVarargs,
+                    this::isNative,
+                    this::isAbstract,
+                    this::isStatic,
+                    this::isSynthetic
+            };
+        } else {
+            return new Supplier[]{
+                    this::isPublic,
+                    this::isPrivate,
+                    this::isProtected,
+                    this::isStatic,
+                    this::isFinal,
+                    this::isInterface,
+                    this::isAbstract,
+                    this::isSynthetic,
+                    this::isAnnotation,
+                    this::isEnum
+            };
+        }
+    }
+
+    public final boolean isSynthetic() {
+        return (accessFlag & Constants.ACC_SYNTHETIC) != 0;
+    }
+
+    public final boolean isAnnotation() {
+        return (accessFlag & Constants.ACC_ANNOTATION) != 0;
+    }
+
+    public final boolean isBridge() {
+        return (accessFlag & Constants.ACC_BRIDGE) != 0;
+    }
+
+    public final boolean isVarargs() {
+        return (accessFlag & Constants.ACC_VARARGS) != 0;
     }
 
     public final boolean isEnum() {
-        return (accessFlag & Constants.ACC_ENUM ) != 0;
+        return (accessFlag & Constants.ACC_ENUM) != 0;
     }
 
     public final boolean isSuper() {

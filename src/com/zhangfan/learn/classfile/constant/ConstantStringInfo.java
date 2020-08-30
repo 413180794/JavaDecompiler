@@ -6,9 +6,7 @@ import java.io.FileInputStream;
 
 public class ConstantStringInfo implements ConstantInfo {
     private Index stringIndex;
-    private int index;
-    public ConstantStringInfo(FileInputStream fi, int index) {
-        this.index = index;
+    public ConstantStringInfo(FileInputStream fi) {
         stringIndex = new Index(fi);
     }
 }

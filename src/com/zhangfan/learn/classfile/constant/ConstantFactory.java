@@ -4,48 +4,46 @@ import com.zhangfan.learn.classfile.Count;
 
 import java.io.FileInputStream;
 
-public class ConstantFactory extends ReadBytes {
-    // 常量池，需要先读一个字节确定自己的类型
+public class ConstantFactory {
+    // 常量池，需要先读一个字节确定自己的类
+    // 由tag来判断自己的真实所属常量// 类型
 
-    private static final int length = 1;
-    private int tag;
-    private ConstantInfo realConstantInfo; // 由tag来判断自己的真实所属常量// 类型
-
-    public ConstantFactory(FileInputStream fileInputStream, int index) {
-        super(fileInputStream, length);
-        tag = bytes[0]; // 由tag来判断自己的类型
-        realConstantInfo = createConstantInfo(tag, index, fileInputStream);
+    private ConstantFactory() {
     }
 
-    public ConstantInfo createConstantInfo(int tag, int index, FileInputStream fi) {
-        switch (tag) {
+    public static ConstantInfo createConstantInfo(FileInputStream fi) {
+        Tag tag = new Tag(fi);
+        switch (tag.getNum()) {
             case Constants.CONSTANT_Utf8:
-                // 读下两个字节，判断下一个常量的长度
-                return new ConstantUtf8Info(fi, index, new Count(fi).getNum());
+                return new ConstantUtf8Info(fi, new Count(fi).getNum());
             case Constants.CONSTANT_Integer:
-                return new ConstantIntegerInfo(fi, index);
+                return new ConstantIntegerInfo(fi);
             case Constants.CONSTANT_Float:
-                return new ConstantFloatInfo(fi, index);
+                return new ConstantFloatInfo(fi);
             case Constants.CONSTANT_Long:
-                return new ConstantLongInfo(fi, index);
+                return new ConstantLongInfo(fi);
             case Constants.CONSTANT_Double:
-                return new ConstantDoubleInfo(fi, index);
-            case Constants.CONSTANT_String:
-                return new ConstantStringInfo(fi, index);
-            case Constants.CONSTANT_Fieldref:
-                return new ConstantFieldrefInfo(fi, index);
+                return new ConstantDoubleInfo(fi);
             case Constants.CONSTANT_Class:
-                return new ConstantClassInfo(fi, index);
+                return new ConstantClassInfo(fi);
+            case Constants.CONSTANT_String:
+                return new ConstantStringInfo(fi);
+            case Constants.CONSTANT_Fieldref:
+                return new ConstantFieldrefInfo(fi);
             case Constants.CONSTANT_Methodref:
-                return new ConstantMethodrefInfo(fi, index);
+                return new ConstantMethodrefInfo(fi);
+            case Constants.CONSTANT_InterfaceMethodref:
+                return new ConstantInterfaceMethodRefInfo(fi);
             case Constants.CONSTANT_NameAndType:
-                return new ConstantNameAndTypeInfo(fi, index);
+                return new ConstantNameAndTypeInfo(fi);
+            case Constants.CONSTANT_MethodHandle:
+                return new ConstantMethodHandleInfo(fi);
+            case Constants.CONSTANT_MethodType:
+                return new ConstantMethodTpeInfo(fi);
+            case Constants.CONSTANT_InvokeDynamic:
+                return new ConstantInvokeDynamicInfo(fi);
             default:
                 return null;
         }
-    }
-
-    public ConstantInfo getRealConstantInfo() {
-        return realConstantInfo;
     }
 }

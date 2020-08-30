@@ -1,5 +1,9 @@
 package com.zhangfan.learn.tools;
 
+
+import java.nio.ByteBuffer;
+import java.util.stream.IntStream;
+
 public class HexUtils {
     // 这个类存在的意义是什么？
     // 在java中 byte是一个字节保存也就是八位保存。
@@ -34,17 +38,28 @@ public class HexUtils {
      */
     public static int bytes2Int(byte[] bytes) {
         // 根据byte的位数
-        int result = 0x00000000;
-        for (int i = 0; i < bytes.length; i++) {
-            result = result ^ ((bytes[i] & 0x000000ff) << (8 * (bytes.length - i - 1)));
-        }
-        return result;
+        return ByteBuffer.wrap(bytes).getInt();
     }
 
-    public static int bytes2Int(byte a, byte b) {
-        return a << 8 & 0x0000ff00 ^ b & 0x000000ff;
+    public static long bytes2Long(byte[] bytes) {
+        return  ByteBuffer.wrap(bytes).getLong();
+    }
+    /**
+     * byte数组转float
+     */
+    public static float bytes2Float(byte[] bytes) {
+        // 根据byte的位数
+        return ByteBuffer.wrap(bytes).getFloat();
     }
 
+    public static String bytes2Char(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        StringBuffer result = new StringBuffer();
+        IntStream.range(0, bytes.length-1).forEach(i-> {
+            result.append(Integer.toHexString(byteBuffer.getChar(i)));
+        });
+        return result.toString();
+    }
     /**
      * byte数组 转换成 16进制小写字符串
      */
@@ -80,4 +95,9 @@ public class HexUtils {
         return bytes;
     }
 
+    public static void main(String[] args) {
+        byte[] b = new byte[]{0x03, 0x02};
+        System.out.println(bytes2Char(b));
+        System.out.println(bytes2Hex(b));
+    }
 }

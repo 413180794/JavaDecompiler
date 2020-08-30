@@ -8,16 +8,14 @@ public class ConstantNameAndTypeInfo implements ConstantInfo {
 
     private Index methodNameInfoIndex;
     private Index methodDescriptionIndex;
-    private int index;
 
-    public ConstantNameAndTypeInfo(FileInputStream fi, int index) {
-        this.index = index;
+    public ConstantNameAndTypeInfo(FileInputStream fi) {
         this.methodNameInfoIndex = new Index(fi);
         this.methodDescriptionIndex = new Index(fi);
     }
 
     @Override
     public String toString() {
-        return "#" + index + " = NameAndType" + "            " + "#" + methodNameInfoIndex + "." + "#" + methodDescriptionIndex;
+        return "#"  + " = NameAndType" + "            " + "#" + methodNameInfoIndex + "." + "#" + methodDescriptionIndex;
     }
 }
